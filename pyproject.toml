@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "delta lake"
+version = "1.0"
+description = "Ambiente Delta Lake"
+authors = ["thiagoDimon <othiago.miranda@outlook.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pyspark = "3.4.2"
+delta-spark = "2.4.0"
+jupyterlab = "^4.1.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
