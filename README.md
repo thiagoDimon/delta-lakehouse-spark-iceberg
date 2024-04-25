@@ -6,7 +6,7 @@
 #### Versões das tecnologias: 
 - Apache Spark 3.3.1
 - Apache Iceberg 1.3.1
-- Delta io 2.3.0
+- Delta Lake 2.3.0
 
 ---
 
