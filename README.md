@@ -6,7 +6,7 @@
 #### Versões das tecnologias: 
 - Apache Spark 3.3.1
 - Apache Iceberg 1.3.1
-- Delta io 2.1.0
+- Delta io 2.3.0
 
 ---
 
@@ -223,14 +223,6 @@ from pyspark.sql.types import StructType, StructField, StringType, FloatType
 from delta import *
 
 import pyspark
-import os # não precisa esse import no readme
-
-## DEFINE VARIAVEIS - Não precisa colocar essa parte no readme
-NESSIE_URI = os.environ.get("NESSIE_URI") ## Nessie Server URI
-WAREHOUSE = os.environ.get("WAREHOUSE") ## BUCKET PARA ESCREVER OS DADOS
-AWS_ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY") ## AWS CREDENCIAIS
-AWS_SECRET_KEY = os.environ.get("AWS_SECRET_KEY") ## AWS CREDENCIAIS
-AWS_S3_ENDPOINT= os.environ.get("AWS_S3_ENDPOINT") ## MINIO ENDPOINT
 ```
 
 ```
