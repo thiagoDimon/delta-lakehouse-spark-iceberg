@@ -81,12 +81,13 @@ print(AWS_S3_ENDPOINT)
 print(NESSIE_URI)
 print(WAREHOUSE)
 ```
+Resultado:
 
-```
-http://minioserver:9000
-http://nessie:19120/api/v1
-s3a://warehouse/
-```
+`http://minioserver:9000`
+
+`http://nessie:19120/api/v1`
+
+`s3a://warehouse/`
 
 ```
 ## Realiza configuração das dependencias para utilização do Apache Iceberg e ambiente para criar, alterar e deletar dados (minio e nessie)
@@ -112,16 +113,17 @@ conf = (
 spark = SparkSession.builder.config(conf=conf).getOrCreate()
 print("Spark Funcionado...")
 ```
+Resultado:
 
-```
+`
 ...
 Output is truncated. View as a scrollable element or open in a text editor. Adjust cell output settings...
 24/04/22 23:59:12 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-24/04/22 23:59:15 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-Spark Funcionado...
-```
+24/04/22 23:59:15 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.`
+
+`Spark Funcionado...`
 
 ```
 ## Cria Tabela Carros
@@ -205,15 +207,14 @@ spark.sql(
 ).show()
 ```
 
-####
-####
-####
-# CONFIGURANDO A UTILIZAÇÃO PARA DELTA LAKE
+### CONFIGURANDO A UTILIZAÇÃO PARA DELTA LAKE
 
- - ### Ainda no Jupyter Notebook, criar um novo notebook para configuração e manipulação do ambiente Delta Lake
- - ### Primeiramente, acessar o Docker Desktop e procurar pelo nome do projeto. Procurar pelo container que está rodando o spark_notebook, está com o nome “notebook”, abrir um terminal e navegar até a raiz “/”. Obs.: É um ambiente Linux
- - ### No terminal aberto rodar o comando “sudo pip install delta-spark==2.3.0” para instalar o delta-spark para utilização no nosso ambiente Delta Lake
- - ### No nosso notebook criado para o delta lake, executar os comandos necessários para funcionamento
+#### 7. No Jupyter Notebook, criar um novo notebook para configuração e manipulação do ambiente Delta Lake
+- Primeiramente, acessar o Docker Desktop e procurar pelo nome do projeto. Procurar pelo container que está rodando o spark_notebook, está com o nome “notebook”, abrir um terminal e navegar até a raiz “/”. Obs.: É um ambiente Linux
+
+ - No terminal aberto rodar o comando “sudo pip install delta-spark==2.3.0” para instalar o delta-spark para utilização no nosso ambiente Delta Lake
+ 
+ - No nosso notebook criado para o delta lake, executar os comandos necessários para funcionamento
 
 ```
 # Realiza importações necessárias para manipulação
@@ -247,14 +248,15 @@ conf = (
 spark = SparkSession.builder.config(conf=conf).getOrCreate()
 print("Spark Funcionando...")
 ```
+Resultado:
 
-```
+`
 ...
 24/04/23 23:07:55 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-Spark Funcionando...
-```
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).`
+
+`Spark Funcionando...`
 
 ```
 ## Prepara dados para criação da tabela no formato delta, isso gera um dataframe para nós
@@ -279,16 +281,14 @@ df = spark.createDataFrame(data=data,schema=schema) # Cria o dataframe
 
 df.show(truncate=False) # Printa o dataframe
 ```
+Resultado:
 
-```
-+----------+------------+---+-------+--------------+
 |ID_CLIENTE|NOME_CLIENTE|UF |STATUS |LIMITE_CREDITO|
-+----------+------------+---+-------+--------------+
+|----------|------------|---|-------|--------------|
 |ID001     |CLIENTE_X   |SP |ATIVO  |250000.0      |
 |ID002     |CLIENTE_Y   |SC |INATIVO|400000.0      |
 |ID003     |CLIENTE_Z   |DF |ATIVO  |1000000.0     |
-+----------+------------+---+-------+--------------+
-```
+
 
 ```
 ## Cria tabela no formato delta
@@ -300,25 +300,25 @@ df.show(truncate=False) # Printa o dataframe
     .save('/tmp/delta-table') # Aqui é passado o nosso diretório para salvar os arquivos
 )
 ```
+Resultado:
 
-```
+`
 24/04/23 23:09:48 WARN package: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
-```
+`
 
 ```
 df = spark.read.format("delta").load("/tmp/delta-table") # Lê os arquivos
 df.show() 
 ```
 
-```
-+----------+------------+---+-------+--------------+
+Resultado: 
+
 |ID_CLIENTE|NOME_CLIENTE| UF| STATUS|LIMITE_CREDITO|
-+----------+------------+---+-------+--------------+
+|----------|------------|---|-------|--------------|
 |     ID002|   CLIENTE_Y| SC|INATIVO|      400000.0|
 |     ID001|   CLIENTE_X| SP|  ATIVO|      250000.0|
 |     ID003|   CLIENTE_Z| DF|  ATIVO|     1000000.0|
-+----------+------------+---+-------+--------------+
-```
+
 
 ```
 ## Prepara dados para upsert e merge na tabela criada
@@ -333,16 +333,14 @@ df_new = spark.createDataFrame(data=new_data, schema=schema)
 
 df_new.show()
 ```
+Resultado: 
 
-```
-+----------+------------+---+-------+--------------+
 |ID_CLIENTE|NOME_CLIENTE| UF| STATUS|LIMITE_CREDITO|
-+----------+------------+---+-------+--------------+
+|----------|------------|---|-------|--------------|
 |     ID001|   CLIENTE_X| SP|INATIVO|           0.0|
 |     ID002|   CLIENTE_Y| SC|  ATIVO|      400000.0|
 |     ID004|   CLIENTE_Z| DF|  ATIVO|     5000000.0|
-+----------+------------+---+-------+--------------+
-```
+
 
 ```
 ## Realiza upsert e merge na tabela criada
@@ -365,17 +363,15 @@ deltaTable = DeltaTable.forPath(spark, "/tmp/delta-table")
 df = spark.read.format("delta").load("/tmp/delta-table")
 df.show()
 ```
+Resultado:
 
-```
-+----------+------------+---+-------+--------------+
 |ID_CLIENTE|NOME_CLIENTE| UF| STATUS|LIMITE_CREDITO|
-+----------+------------+---+-------+--------------+
+|----------|------------|---|-------|--------------|
 |     ID001|   CLIENTE_X| SP|INATIVO|           0.0|
 |     ID002|   CLIENTE_Y| SC|  ATIVO|      400000.0|
 |     ID004|   CLIENTE_Z| DF|  ATIVO|     5000000.0|
 |     ID003|   CLIENTE_Z| DF|  ATIVO|     1000000.0|
-+----------+------------+---+-------+--------------+
-```
+
 
 ```
 ## Deleta registro que o limite de credito é menor que 400000.0
@@ -387,13 +383,10 @@ deltaTable.delete("LIMITE_CREDITO < 400000.0")
 df = spark.read.format("delta").load("/tmp/delta-table")
 df.show()
 ```
+Resultado:
 
-```
-+----------+------------+---+------+--------------+
 |ID_CLIENTE|NOME_CLIENTE| UF|STATUS|LIMITE_CREDITO|
-+----------+------------+---+------+--------------+
+|----------|------------|---|------|--------------|
 |     ID002|   CLIENTE_Y| SC| ATIVO|      400000.0|
 |     ID004|   CLIENTE_Z| DF| ATIVO|     5000000.0|
 |     ID003|   CLIENTE_Z| DF| ATIVO|     1000000.0|
-+----------+------------+---+------+--------------+
-```
