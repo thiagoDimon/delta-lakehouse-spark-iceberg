@@ -1,50 +1,66 @@
-# Documentação Para Subir Projeto – Engenharia de Dados
+# Delta Lake & Apache Iceberg
 
-### Pré-requisitos:  Docker instalado
+#### Pré-requisitos: 
+- Docker
 
-### Versões das tecnologias:
+#### Versões das tecnologias: 
 - Apache Spark 3.3.1
 - Apache Iceberg 1.3.1
 - Delta io 2.1.0
 
-### Passos para subir e configurar os ambientes: 
-- Baixar/Clonar repositório no GitHub para o VSCode
-- Abrir o terminal no VSCode dentro do projeto e executar o comando: 
-#### Serve para iniciar e baixar dependências necessárias do nosso container responsável por executar o Jupyter Notebook
-`$ docker-compose up spark_notebook`
+---
 
-- Abrir um segundo terminal no VSCode e executar o comando:
+## Passo a passo para subir e configurar os ambientes:
 
-#### Server para ser nossa instância de object store para salvar os dados que serão gerados pelos nossos exemplos
-`$ docker-compose up minioserver`
+#### 1. Baixar/Clonar repositório no GitHub para o VSCode
 
-- Abrir um terceiro terminal no VSCode e executar o comando:
+#### 2. Abrir o terminal no VSCode dentro do projeto e executar o comando:
 
-#### Nosso barramento de dados para unificar as camadas de storage/banco de dados, útil para storage distribuídos
-`$ docker-compose up dremio`
+```sh
+$ docker-compose up spark_notebook
+```
 
-- Abrir um quarto terminal no VSCode e executar o comando: 
+> Comando irá iniciar e baixar dependências necessárias do nosso container responsável por executar o Jupyter Notebook
 
-#### Ferramenta para versionamento de códigos/dados, é semelhante ao GitHub, mas voltada a Engenharia de Dados
-`$ docker-compose up nessie`
+#### 3. Abrir um segundo terminal no VSCode e executar o comando:
 
-- No terminal que foi iniciado o minioserver, acessar o link na porta 9001 e utilizar as credenciais disponíveis no arquivo .env (minio_root_user e minio_root_password) para acessar a ferramenta
+```sh
+$ docker-compose up minioserver
+```
+> Instância de object store para salvar os dados que serão gerados pelos nossos exemplos
 
-  - Criando nosso object store e access key
-  - Object Store:  Navegar até “Bucket” e criar o nosso Object Store, forneça apenas um nome e faça criação dele
-  - Com o object criado coloque o nome fornecido a ele no campo Warehouse no arquivo .env
-  - Access Key: Navegar até “Access Keys” e criar a nossa chave de acesso para podermos realizar a conexão ao nosso object store
-  - Copie o access key e o secret key, e coloque ele arquivo .env e substitua as informações  “aws_access_key_id” e “aws_secret_access_key”, respectivamente.
-  - Obs.: No arquivo .env forneça as informações corretas de acordo com a sua região para AWS_REGION e MINIO_REGION
+#### 4. Abrir um terceiro terminal no VSCode e executar o comando:
 
-####
-####
-####
-# CONFIGURANDO A UTILIZAÇÃO PARA APACHE ICEBERG
+```sh
+$ docker-compose up dremio
+```
+> Barramento de dados para unificar as camadas de storage/banco de dados, útil para storage distribuídos
 
- - ### No terminal que iniciamos o Jupyter Notebook (docker-compose up spark_notebook), acessar o link fornecido que está rodando na porta 8888
+#### 4. Abrir um quarto terminal no VSCode e executar o comando:
 
- - ### Criar um novo notebook e adicionar os seguintes comandos para configuração e manipulação do ambiente Apache Iceberg 
+```sh
+$ docker-compose up nessie
+```
+> Ferramenta para versionamento de códigos/dados, é semelhante ao GitHub, mas voltada a Engenharia de Dados
+`
+#### 5. No terminal que foi iniciado o minioserver
+
+- Acessar o link na porta 9001 e utilizar as credenciais disponíveis no arquivo .env (minio_root_user e minio_root_password) para acessar a ferramenta
+
+    - Criando nosso object store e access key
+    - Object Store: Navegar até “Bucket” e criar o nosso Object Store, forneça apenas um nome e faça criação dele
+    - Com o object criado coloque o nome fornecido a ele no campo Warehouse no arquivo .env
+    - Access Key: Navegar até “Access Keys” e criar a nossa chave de acesso para podermos realizar a conexão ao nosso object store
+    - Copie o access key e o secret key, e coloque ele arquivo .env e substitua as informações “aws_access_key_id” e “aws_secret_access_key”, respectivamente.
+    - Obs.: No arquivo .env forneça as informações corretas de acordo com a sua região para AWS_REGION e MINIO_REGION`
+
+
+### CONFIGURANDO A UTILIZAÇÃO PARA APACHE ICEBERG
+
+#### 6. No terminal que iniciamos o Jupyter Notebook (docker-compose up spark_notebook)
+- Acessar o link fornecido que está rodando na porta 8888
+
+- Criar um novo notebook e adicionar os seguintes comandos para configuração e manipulação do ambiente Apache Iceberg
 
 ```
 # Imports necessários para manipulações
