@@ -1,8 +1,8 @@
 # Delta Lake & Apache Iceberg
 
 #### Créditos:
-- [DataWay BR](https://www.youtube.com/watch?v=eOrWEsZIfKU&t=1088s)
-- [Dremio](https://www.youtube.com/watch?v=X3wfVaSQS_c&t=1552s)
+- [DataWay BR](https://www.youtube.com/watch?v=eOrWEsZIfKU&t=)
+- [Dremio](https://www.youtube.com/watch?v=X3wfVaSQS_c&t=)
 
 #### Pré-requisitos: 
 - Docker
